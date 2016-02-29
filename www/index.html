@@ -9,12 +9,56 @@
 
         <link rel="stylesheet" href="design/design.css">
         <link href='https://fonts.googleapis.com/css?family=Poppins:400,700|Halant:400,700' rel='stylesheet' type='text/css'>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
     </head>
     <body>
 		<main>
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+			<h1>Did you know:</h1>
+        	<p>Dmitri and Betty are awesome.</p>
 		</main>
+		<section id="background">
+			<div class="vertical"><div class="innerShadow"></div><img src="design/img/1.jpg" /></div>
+			<div><div class="innerShadow"></div><img src="design/img/2.jpg" /></div>
+			<div><div class="innerShadow"></div><img src="design/img/3.jpg" /></div>
+			<div><div class="innerShadow"></div><img src="design/img/4.jpg" /></div> <!-- 4 & 2 are the same -->
+			<div><div class="innerShadow"></div><img src="design/img/5.jpg" /></div>
+		</section>
+        	
 		
         <script src="snippets/javascript.js"></script>
+        <script>
+        	window.addEvent('domready', function(){
+        		
+        		// total number of polaroid pictures:
+        		var totalPolaroids = 5;
+        		
+        		// randomize polaroid picture order:
+        		var randomPolaroidOrder = [];
+				for (var i = 1; i <= totalPolaroids; ++i){
+					randomPolaroidOrder.push(i);
+				}
+				
+				// place polaroids at random positions, angles and order:
+				$$('#background > div').each(function(el,i){
+				
+					var zIndex = randomPolaroidOrder.splice(Math.random()*randomPolaroidOrder.length,1)[0];
+					blur = (totalPolaroids - zIndex) * 1;
+					scale = (zIndex / totalPolaroids) * .5 + .5;
+					
+					el.setStyles({
+						'left': Math.floor((Math.random() * 75) - 10) + '%',
+						'top': Math.floor((Math.random() * 60) - 10) + 'vh',
+						'transform':'rotate(' + Math.floor((Math.random() * 30) - 15) + 'deg) scale(' + scale + ')',
+						'z-index': zIndex,
+						'-webkit-filter': 'blur(' + blur + 'px)',
+						'-moz-filter': 'blur(' + blur + 'px)',
+						'-ms-filter': 'blur(' + blur + 'px)',
+						'filter': 'blur(' + blur + 'px)',
+										
+					});
+				});
+        	});
+        </script>
     </body>
 </html>

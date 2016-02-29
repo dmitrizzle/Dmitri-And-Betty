@@ -38,3 +38,63 @@ main {
 }
 strong { font-weight: 700 }
 .center { text-align: center; }
+
+
+
+
+
+
+#background {
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	width: 100vw;
+}
+#background > div {
+	width: 45%;
+	position: absolute;
+	background: #fff;
+	padding: 2em 2em 2em 9em;
+	margin: 1em;
+	box-shadow: 0 .5em 1em rgba(0, 0, 0, 0.3);
+	border-radius: .33em;
+	z-index: 1;
+}
+#background div.innerShadow {
+	box-shadow: 0 0 .5em #000 inset;
+	position: absolute;
+	top: 2em;
+	left: 9em;
+	right: 2em;
+	bottom: 2em;
+	z-index: 1;
+	border-radius: .15em;
+	overflow: hidden;
+}
+#background > div > img {
+	width: 100%;
+	display: block;
+	border-radius: .15em;
+	overflow: hidden;
+}
+
+#background > div.vertical {
+	width: calc(45vw * 4/5);
+	padding: 2em 2em 9em 2em;
+}
+#background div.vertical div.innerShadow {
+	left: 2em;
+	bottom: 9em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
