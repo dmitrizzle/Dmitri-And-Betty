@@ -1,0 +1,40 @@
+/* ARTSOCKET RESET BLOCK V0.5 */
+
+html { height: 100%; }
+body {
+    height: 100%;
+    width: 100%;
+    min-width: 320px;
+    padding: 0;
+    margin: 0;
+	font-family: Halant, serif;
+	font-size: 62.5%;
+	letter-spacing: 0.05em;
+	font-weight: 400;
+	color: #2C2C2C;
+	-webkit-text-size-adjust: 100%;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+header, section, footer, aside, nav, main, article, figure, figcaption, details, p { 
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: Poppins, sans-serif;
+	font-weight: 700;
+	margin: 0;
+	padding: 0;
+}
+main {
+	margin: 0 auto;
+	font-size: 1.5em;
+}
+@media only screen and (min-width:1250px) { body { font-size: 75% } }
+@media only screen and (max-width:540px) { body { font-size: 55% } }
+@media only screen and (min-width:2000px) {
+	body { font-size: 110%; }
+}
+strong { font-weight: 700 }
+.center { text-align: center; }
