@@ -15,6 +15,8 @@ body {
 	-webkit-text-size-adjust: 100%;
 	-webkit-font-smoothing: subpixel-antialiased;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	
+	overflow-x: hidden;
 }
 header, section, footer, aside, nav, main, article, figure, figcaption, details, p { 
 	display: block;
@@ -26,6 +28,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 700;
 	margin: 0;
 	padding: 0;
+}
+a {
+	text-decoration: none;
+	color: #2c2c2c;
 }
 main {
 	margin: 0 auto;
@@ -41,27 +47,165 @@ strong { font-weight: 700 }
 
 
 
+.paperShadow {
+	box-shadow: 0 .5em 1em rgba(0, 0, 0, 0.3);
+}
+.beatingHeart {
+    animation: beat 750ms;
+    animation-iteration-count: 7;
+    display: inline-block;
+    position: relative;
+}
+
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    5% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+@keyframes fadeIn {
+    0% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+}
+@keyframes headerForm {
+	0% {
+		background: 0 0;
+		box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+	}
+	100% {
+		background: #fff;
+		box-shadow: 0 .5em 1em rgba(0, 0, 0, 0.3);
+	}
+}
+@keyframes headerMenuDrop {
+	0% {
+		opacity: 0;
+		transform: translateY(-2em);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+}
+
+
+
+body > header {
+	padding: 1.5em 7.5em;
+	margin-left: -5em;
+	width: calc(100vw + 10em);
+	z-index: 100;
+	position: relative;
+	animation: headerForm 500ms ease 3000ms forwards;
+}
+body > header h1 {
+	width: 14em;
+	background: rgba(255, 255, 255, 0.9);
+	display: inline-block;
+	border-radius: .15em;
+	padding: .15em 0;
+}
+body > header h1 strong,
+body > header h1 em {
+	color: #ff5a96;
+}
+body > header h1 em {
+	font-size: .75em;
+	font-style: normal;
+	font-weight: 400;
+	padding-left: .5em;
+	opacity: 0;
+	animation: fadeIn 750ms ease 2250ms forwards;
+}
+body > header h1 span.dmitri {
+	opacity: 0;
+	animation: fadeIn 750ms ease 750ms forwards;
+}
+body > header h1 span.betty {
+	opacity: 0;
+	animation: fadeIn 750ms ease 1500ms forwards;
+}
+
+body > header ul {
+	display: inline-block;
+	font-size: 1.5em;
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+	width: calc(100% - 28em);
+}
+body > header ul li {
+	display: inline-block;
+	margin: 0 .5em;
+	padding: .25em .5em;
+	min-width: 4em;
+	text-align: center;
+	border-radius: .15em;
+	animation: headerMenuDrop 500ms ease 3000ms forwards;
+	opacity: 0;
+}
+body > header ul li:nth-child(2) {
+	animation: headerMenuDrop 500ms ease 3100ms forwards;
+}
+body > header ul li:nth-child(3) {
+	animation: headerMenuDrop 500ms ease 3200ms forwards;
+}
+body > header ul li:nth-child(4) {
+	animation: headerMenuDrop 500ms ease 3300ms forwards;
+}
+body > header ul li.rsvp {
+	float: right;
+	display: inline-block;
+	background: #ff5a96;
+	font-weight: 700;
+	text-shadow: 0 0 2px rgba(0, 0, 0, 0.48);
+}
+body > header ul li.rsvp a {
+	color: #fff;
+}
 
 
 
 #background {
-	position: absolute;
+	position: fixed;
 	top: 0;
-	z-index: -1;
+	left: 0;
+	z-index: 0;
 	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	transition: all 500ms;
+}
+#background.blur {
+	-webkit-filter: blur(20px);
+	-moz-filter: blur(20px);
+	-ms-filter: blur(20px);
+	filter: url(#backgroundBlur);
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='20');
+	filter: blur(20px);
+	
+	transform: scale(1.25);
+	opacity: .25;
 }
 #background > div {
 	width: 45%;
 	position: absolute;
+	transform: translate(0, 100%) scale(.1, .1);
 	background: #fff;
 	padding: 2em 2em 2em 9em;
 	margin: 1em;
-	box-shadow: 0 .5em 1em rgba(0, 0, 0, 0.3);
 	border-radius: .33em;
 	z-index: 1;
+	opacity: 0;
+	transition: transform 750ms, opacity 250ms
 }
 #background div.innerShadow {
-	box-shadow: 0 0 .5em #000 inset;
+	box-shadow: 0 0 .25em #000 inset;
 	position: absolute;
 	top: 2em;
 	left: 9em;
