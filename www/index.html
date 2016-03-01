@@ -3,62 +3,57 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Dmitri and Betty</title>
+        <title>Dmitri and Betty are getting MARRIED!</title>
         <meta name="description" content="RSVP form, info about Thailand and your official invitation to our wedding.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="design/design.css">
-        <link href='https://fonts.googleapis.com/css?family=Poppins:400,700|Halant:400,700' rel='stylesheet' type='text/css'>
+        <!-- <link href='https://fonts.googleapis.com/css?family=Poppins:400,700|Halant:400,700' rel='stylesheet' type='text/css'> -->
         
-        <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+        <script src="snippets/MooTools-Core-1.6.0-compressed.js"></script>
+        <script src="snippets/MooTools-More-1.6.0-compressed.js"></script>
     </head>
     <body>
+    	<header>
+    		<h1><span class="dmitri">Dmitri</span> <strong class="beatingHeart">&#10084;</strong> <span class="betty">Betty</span> <em>19 10 16</em></h1>
+    		<ul>
+				<li><a href="javascript:void(0);">Location</a></li>
+				<li><a href="javascript:void(0);">Costs</a></li>
+				<li><a href="javascript:void(0);">Travel Info</a></li>
+				<li class="rsvp"><a href="javascript:void(0);">RSVP</a></li>
+    		</ul>
+    	</header>
 		<main>
+			<!--
 			<h1>Did you know:</h1>
         	<p>Dmitri and Betty are awesome.</p>
+        	-->
 		</main>
 		<section id="background">
-			<div class="vertical"><div class="innerShadow"></div><img src="design/img/1.jpg" /></div>
-			<div><div class="innerShadow"></div><img src="design/img/2.jpg" /></div>
-			<div><div class="innerShadow"></div><img src="design/img/3.jpg" /></div>
-			<div><div class="innerShadow"></div><img src="design/img/4.jpg" /></div> <!-- 4 & 2 are the same -->
-			<div><div class="innerShadow"></div><img src="design/img/5.jpg" /></div>
+			<div class="vertical paperShadow"><div class="innerShadow"></div><img src="design/img/1.jpg" /></div>
+			<div class="paperShadow"><div class="innerShadow"></div><img src="design/img/2.jpg" /></div>
+			<div class="vertical paperShadow"><div class="innerShadow"></div><img src="design/img/4.jpg" /></div>
+			<div class="paperShadow"><div class="innerShadow"></div><img src="design/img/5.jpg" /></div>
+			<div class="vertical paperShadow"><div class="innerShadow"></div><img src="design/img/8.jpg" /></div>
+			<div class="paperShadow"><div class="innerShadow"></div><img src="design/img/9.jpg" /></div>
+			<div class="vertical paperShadow"><div class="innerShadow"></div><img src="design/img/10.jpg" /></div>
+			<div class="paperShadow"><div class="innerShadow"></div><img src="design/img/11.jpg" /></div>
 		</section>
         	
 		
         <script src="snippets/javascript.js"></script>
-        <script>
-        	window.addEvent('domready', function(){
-        		
-        		// total number of polaroid pictures:
-        		var totalPolaroids = 5;
-        		
-        		// randomize polaroid picture order:
-        		var randomPolaroidOrder = [];
-				for (var i = 1; i <= totalPolaroids; ++i){
-					randomPolaroidOrder.push(i);
-				}
-				
-				// place polaroids at random positions, angles and order:
-				$$('#background > div').each(function(el,i){
-				
-					var zIndex = randomPolaroidOrder.splice(Math.random()*randomPolaroidOrder.length,1)[0];
-					blur = (totalPolaroids - zIndex) * 1;
-					scale = (zIndex / totalPolaroids) * .5 + .5;
-					
-					el.setStyles({
-						'left': Math.floor((Math.random() * 75) - 10) + '%',
-						'top': Math.floor((Math.random() * 60) - 10) + 'vh',
-						'transform':'rotate(' + Math.floor((Math.random() * 30) - 15) + 'deg) scale(' + scale + ')',
-						'z-index': zIndex,
-						'-webkit-filter': 'blur(' + blur + 'px)',
-						'-moz-filter': 'blur(' + blur + 'px)',
-						'-ms-filter': 'blur(' + blur + 'px)',
-						'filter': 'blur(' + blur + 'px)',
-										
-					});
-				});
-        	});
-        </script>
+        
+        
+        
+        
+        
+        <!-- utility elements -->
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<filter id="backgroundBlur">
+				<feGaussianBlur stdDeviation="20" />
+			</filter>
+		</svg> 
+		
+		
     </body>
 </html>
