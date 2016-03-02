@@ -35,8 +35,26 @@ for (var i = 0; i < totalPolaroids; ++i){
 	photoThrow.top[i] = (Math.random() * (200/totalPolaroids));
 }
 
+// number increment animation:
+function incrementAnimate(el){
+	var target = parseInt(el.get('html'));
+    var number = 0;
+    
+	var interval = setInterval(function() {
+		el.set('html', number);
+		if (number >= target) clearInterval(interval);
+		number++;
+	}, 20);
+}
+
 // background images animation, loading and interaction:
 (function(){
+
+	// number count down animation:
+	$$('body > header em > i').each(function(el,i){
+		(function(){ incrementAnimate(el); }).delay(i*200);
+	});
+	
 	Asset.images(polaroids, {
 		onComplete: function(){
 		
@@ -96,7 +114,77 @@ for (var i = 0; i < totalPolaroids; ++i){
 
 
 
+
+
+
+
 // LINKS AND NAVIGATION
 
 
-$$('body > header a').addEvent('click', function(){ $('background').toggleClass('blur'); });
+$$('body > header a').addEvent('click', function(){
+	page('show', this);
+});
+$$($$('body > header > h1'),$('background')).addEvent('click', function(){
+	page('hide');
+});
+
+$$('body > main p').addClass('hangingOnAString');
+$$('body > main h1').addClass('hangingOnAString');
+
+
+var scrl = new Fx.Scroll($(document.body));
+
+function page(action, el){
+	scrl.start(0,0);
+	
+	if(action == 'show'){
+		$$('body > main article').setStyles({
+			'transform': '',
+			'opacity': ''
+		});
+		$$('body > main article').setStyle('opacity',0);
+		$('article'+el.get('html').replace(' ','')).setStyles({
+			'opacity': 1,
+			'transform': 'translateY(0)'
+		});
+		
+		$('background').addClass('blur');
+		$$('body > main').setStyle('display','block');
+		(function(){ $$('body > main').addClass('show'); }).delay(150);
+		$$('body > header li').removeClass('selected');
+		el.getParents('li')[0].addClass('selected');
+		
+		(function(){
+		$$('body > main .hangingOnAString').each(function(el){
+			tempRotate = ((Math.random() * 0.0002) - 0);
+			if((Math.random() - 1) > 0){
+				tempRotate = ((Math.random() * -.0002) - 0);
+			}
+			el.setStyle('transform', 'matrix3d(0.98,0,0.17,' + ((Math.random() * 0.0002) - 0) +',0.00,1,0.00,0,-0.17,0,0.98,0,0,0,0,1)');
+		});
+		}).delay(100);
+	}
+	else if(action == 'hide'){
+		$$('body > main article').setStyles({
+			'transform': '',
+			'opacity': ''
+		});
+
+		$('background').removeClass('blur');
+		$$('body > main').removeClass('show');
+		(function(){ $$('body > main').setStyle('display',''); }).delay(500);
+		$$('body > header li').removeClass('selected');
+		$$($$('body > main p'),$$('body > main p')).each(function(el,i){
+			el.setStyle('transform', 'rotateY(0deg)');
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
