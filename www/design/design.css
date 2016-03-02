@@ -198,8 +198,6 @@ body > main {
 	max-width: 40em;
 	min-height: 100vh;
 	padding: 1.5em;
-	background: rgba(255, 255, 255, 0.5);
-	box-shadow: 0 0 3em 3em rgba(255, 255, 255, 0.5);
 	z-index: 1;
 	position: relative;
 	opacity: 0;
@@ -215,6 +213,7 @@ body > main article {
 	text-align: center;
 	opacity: 0;
 	position: absolute;
+	z-index: 1;
 	transform: translateY(-100vh);
 	transition: all 300ms;
 }
@@ -256,7 +255,7 @@ body > main p {
 	filter: blur(20px);
 	
 	transform: scale(1.1);
-	opacity: .5;
+	opacity: .35;
 }
 #background > div {
 	width: 45%;

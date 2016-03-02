@@ -140,12 +140,14 @@ function page(action, el){
 	if(action == 'show'){
 		$$('body > main article').setStyles({
 			'transform': '',
-			'opacity': ''
+			'opacity': '',
+			'z-index': ''
 		});
 		$$('body > main article').setStyle('opacity',0);
 		$('article'+el.get('html').replace(' ','')).setStyles({
 			'opacity': 1,
-			'transform': 'translateY(0)'
+			'transform': 'translateY(0)',
+			'z-index': 2
 		});
 		
 		$('background').addClass('blur');
@@ -167,7 +169,8 @@ function page(action, el){
 	else if(action == 'hide'){
 		$$('body > main article').setStyles({
 			'transform': '',
-			'opacity': ''
+			'opacity': '',
+			'z-index': ''
 		});
 
 		$('background').removeClass('blur');
