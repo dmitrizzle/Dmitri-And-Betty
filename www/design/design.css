@@ -64,12 +64,12 @@ strong { font-weight: 700 }
     100% { transform: scale(1); }
 }
 @keyframes fadeIn {
-    0% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+@keyframes fadeInHalf {
+    0% { opacity: 0; }
+    100% { opacity: .5; }
 }
 @keyframes headerForm {
 	0% {
@@ -103,7 +103,18 @@ body > header {
 	width: calc(100vw + 10em);
 	z-index: 100;
 	animation: headerForm 500ms ease 3000ms forwards;
+	
+	overflow: hidden;
 }
+@media only screen and (max-width:800px) { 
+	body > header {
+		padding: 1.5em 10em;
+		height: 9em;
+		transition: transform 750ms;
+	}
+	body > header.hide { transform: translateY(-6em) }
+}
+
 body > header h1 {
 	width: 14em;
 	background: rgba(255, 255, 255, 0.9);
@@ -111,6 +122,15 @@ body > header h1 {
 	display: inline-block;
 	border-radius: .15em;
 	padding: .15em 0;
+}
+@media only screen and (max-width:800px) { 
+	body > header h1 {
+		display: block;
+		text-align: center;
+		margin: 0 0 0 calc(50vw - 8em);
+		transition: transform 750ms;
+	}
+	body > header.hide h1 { transform: translateY(3em) }
 }
 body > header h1 strong,
 body > header h1 em {
@@ -126,9 +146,16 @@ body > header h1 em, body > header h1 em i {
 body > header h1 em {
 	font-size: .75em;
 	font-weight: 400;
-	padding-left: .5em;
 	opacity: 0;
 	animation: fadeIn 750ms ease 2250ms forwards;
+	margin: .4em 0.5em 0 0;
+	display: block;
+	width: 4em;
+	overflow: hidden;
+	float: right;
+}
+@media only screen and (max-width:800px) { 
+	body > header h1 em { animation: fadeInHalf 750ms ease 2250ms forwards; }
 }
 body > header h1 span.dmitri {
 	opacity: 0;
@@ -147,6 +174,18 @@ body > header ul {
 	padding: 0;
 	width: calc(100% - 28em);
 }
+@media only screen and (max-width:800px) { 
+	body > header ul {
+		margin-left: -2.5em;
+		margin-top: 1.5em;
+		width: calc(100vw - 1em);
+		transition: opacity 200ms, transform 500ms;
+	}
+	body > header.hide ul {
+		opacity: 0;
+		transform: scaleY(.6);
+	}
+}
 body > header ul li {
 	display: inline-block;
 	margin: 0 .5em;
@@ -158,6 +197,12 @@ body > header ul li {
 	opacity: 0;
 	border-bottom: 3px solid #fff;
 	transition: all 500ms;
+}
+@media only screen and (max-width:800px) { 
+	body > header ul li:not(.rsvp) {
+		min-width: 0;
+		margin: 0;
+	}
 }
 body > header ul li:nth-child(2) {
 	animation: headerMenuDrop 500ms ease 3100ms forwards;
@@ -196,7 +241,6 @@ body > header ul li.rsvp.selected {
 body > main {
 	margin: 6em auto 0;
 	max-width: 40em;
-	min-height: 100vh;
 	padding: 1.5em;
 	z-index: 1;
 	position: relative;
@@ -204,6 +248,9 @@ body > main {
 	display: none;
 	transform: scale(.95);
 	transition: all 200ms;
+}
+@media only screen and (max-width:800px) { 
+	body > main { margin-top: 9em; padding: .5em; }
 }
 body > main.show {
 	opacity: 1;
@@ -258,11 +305,11 @@ body > main p {
 	opacity: .35;
 }
 #background > div {
-	width: 45%;
+	width: 45vw;
 	position: absolute;
 	transform: translate(0, 100%) scale(1.1);
 	background: #fff;
-	padding: 2em 2em 2em 9em;
+	padding: 1.5vw 1.5vw 1.5vw 7.5vw;
 	margin: 1em;
 	border-radius: .33em;
 	z-index: 1;
@@ -274,10 +321,10 @@ body > main p {
 #background div.innerShadow {
 	box-shadow: 0 0 .25em #000 inset;
 	position: absolute;
-	top: 2em;
-	left: 9em;
-	right: 2em;
-	bottom: 2em;
+	top: 1.5vw;
+	left: 7.5vw;
+	right: 1.5vw;
+	bottom: 1.5vw;
 	z-index: 1;
 	border-radius: .15em;
 	overflow: hidden;
@@ -291,13 +338,33 @@ body > main p {
 
 #background > div.vertical {
 	width: calc(45vw * 4/5);
-	padding: 2em 2em 9em 2em;
+	padding: 1.5vw 1.5vw 7.5vw 1.5vw;
 }
 #background div.vertical div.innerShadow {
-	left: 2em;
-	bottom: 9em;
+	left: 1.5vw;
+	bottom: 7.5vw;
 }
 
+@media screen and (max-aspect-ratio: 1/1) {
+	#background > div {
+		padding: 1.5vh 1.5vh 1.5vh 7.5vh;
+		width: 45vh;
+	}
+	#background div.innerShadow {
+		top: 1.5vh;
+		left: 7.5vh;
+		right: 1.5vh;
+		bottom: 1.5vh;
+	}
+	#background > div.vertical {
+		width: calc(45vh * 4/5);
+		padding: 1.5vh 1.5vh 7.5vh 1.5vh;
+	}
+	#background div.vertical div.innerShadow {
+		left: 1.5vh;
+		bottom: 7.5vh;
+	}
+}
 
 
 
