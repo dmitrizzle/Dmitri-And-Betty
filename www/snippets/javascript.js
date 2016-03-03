@@ -48,6 +48,10 @@ function incrementAnimate(el){
 	}, 20);
 }
 
+window.addEvent('domready', function(){
+	(function(){ $$('body > header h1 strong svg').setStyle('display','inline-block'); }).delay(100);
+});
+
 // background images animation, loading and interaction:
 (function(){
 
