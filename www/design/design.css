@@ -131,7 +131,7 @@ body > header h1 {
 		margin: 0 0 0 calc(50vw - 8em);
 		transition: transform 750ms;
 	}
-	body > header.hide h1 { transform: translateY(3em) }
+	body > header.hide h1 { transform: translateY(2.85em) }
 }
 body > header h1 em {
 	color: #ff5a96;
