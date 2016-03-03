@@ -163,6 +163,7 @@ function page(action, el){
 		$('background').addClass('blur');
 		$$('body > main').setStyle('display','block');
 		(function(){ $$('body > main').addClass('show'); }).delay(150);
+		$$('body').setStyle('height', 'calc(100vh + 3em)');
 		
 		// highlight menu selections:
 		$$('body > header li').removeClass('selected');
@@ -192,7 +193,10 @@ function page(action, el){
 		// restore background:
 		$('background').removeClass('blur');
 		$$('body > main').removeClass('show');
-		(function(){ $$('body > main').setStyle('display',''); }).delay(500);
+		(function(){
+			$$('body > main').setStyle('display','');
+			$$('body').setStyle('height', '');
+		}).delay(500);
 		
 		// remove menu selections:
 		$$('body > header li').removeClass('selected');
@@ -211,6 +215,7 @@ window.addEvent('scroll', function(){
 	// hide part of header on scroll down:
 	if(scrollY > 100 && window.getScroll().y > scrollYi + 10){
 		$$('body > header').addClass('hide');
+		(function(){ $$('body > header ul').setStyle('display','none'); }).delay(500);
 		scrollYi = scrollY;
 	}
 	
@@ -221,6 +226,7 @@ window.addEvent('scroll', function(){
 		&& $(document.body).scrollHeight > ($(document.body).scrollTop + window.innerHeight + 50)
 	){
 		$$('body > header').removeClass('hide');
+		$$('body > header ul').setStyle('display','inline-block');
 		scrollYi = scrollY;
 	}
 });

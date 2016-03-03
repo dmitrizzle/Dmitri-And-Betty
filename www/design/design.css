@@ -3,7 +3,6 @@
 html { height: 100%; }
 body {
     height: 100%;
-    height: calc(100vh + 3em);
     width: 100%;
     min-width: 320px;
     padding: 0;
