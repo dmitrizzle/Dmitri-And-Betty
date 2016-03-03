@@ -3,6 +3,7 @@
 html { height: 100%; }
 body {
     height: 100%;
+    height: calc(100vh + 3em);
     width: 100%;
     min-width: 320px;
     padding: 0;
@@ -132,10 +133,14 @@ body > header h1 {
 	}
 	body > header.hide h1 { transform: translateY(3em) }
 }
-body > header h1 strong,
 body > header h1 em {
 	color: #ff5a96;
 }
+body > header h1 strong svg {
+	width: .75em;
+	height: .75em;
+}
+body > header h1 strong svg path { fill: #ff5a96; }
 body > header h1:hover strong {
  	animation: beat 750ms;
     animation-iteration-count: 3;
