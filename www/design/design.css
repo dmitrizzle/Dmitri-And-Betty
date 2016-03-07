@@ -3,6 +3,8 @@
 html { height: 100%; }
 body {
     height: 100%;
+    transition: height 250ms;
+    
     width: 100%;
     min-width: 320px;
     padding: 0;
@@ -127,7 +129,7 @@ body > header h1 {
 	body > header h1 {
 		display: block;
 		text-align: center;
-		margin: 0 0 0 calc(50vw - 8em);
+		margin: 0 0 0 calc(50vw - 9.5em);
 		transition: transform 750ms;
 	}
 	body > header.hide h1 { transform: translateY(2.85em) }
@@ -152,14 +154,20 @@ body > header h1 em {
 	font-weight: 400;
 	opacity: 0;
 	animation: fadeIn 750ms ease 2250ms forwards;
-	margin: .4em 0.5em 0 0;
+	margin: .4em 3.25em 0 0;
 	display: block;
 	width: 4em;
 	overflow: hidden;
 	float: right;
 }
 @media only screen and (max-width:800px) { 
-	body > header h1 em { animation: fadeInHalf 750ms ease 2250ms forwards; }
+	body > header h1 em {
+		animation: fadeInHalf 750ms ease 2250ms forwards;
+		position: absolute;
+		display: block;
+		right: 17.5em;
+		top: 3.35em;
+	}
 }
 body > header h1 span.dmitri {
 	opacity: 0;
@@ -202,12 +210,6 @@ body > header ul li {
 	border-bottom: 3px solid #fff;
 	transition: all 500ms;
 }
-@media only screen and (max-width:800px) { 
-	body > header ul li:not(.rsvp) {
-		min-width: 0;
-		margin: 0;
-	}
-}
 body > header ul li:nth-child(2) {
 	animation: headerMenuDrop 500ms ease 3100ms forwards;
 }
@@ -238,7 +240,12 @@ body > header ul li.rsvp.selected {
 	background: #2c2c2c;
 	border-bottom: none;
 }
-
+@media only screen and (max-width:800px) {
+	body > header ul li:not(.rsvp) {
+		min-width: 0;
+		margin: 0;
+	}
+}
 
 
 

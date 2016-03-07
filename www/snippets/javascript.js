@@ -1,4 +1,4 @@
-
+var bodyHeader = $$('body > header')[0];
 
 
 // BACKGROUND ANIMATION AND INTERACTIVITY
@@ -33,7 +33,7 @@ for (var i = 0; i < totalPolaroids; ++i){
 	photoThrow.rotate[i] = Math.floor((Math.random() * 50) - 25);	
 	photoThrow.left[i] = Math.random() * (window.getSize().x/totalPolaroids)*(i+1);
 	
-	photoThrow.top[i] = Math.random() * (window.getSize().y/totalPolaroids)*(i+i) + $$('body > header')[0].getSize().y/2;
+	photoThrow.top[i] = Math.random() * (window.getSize().y/totalPolaroids)*(i+i) + bodyHeader.getSize().y/2;
 }
 
 // number increment animation:
@@ -73,6 +73,12 @@ window.addEvent('domready', function(){
 						'top': photoThrow.top[i],
 						'opacity': 1
 					});
+					
+					(function(){
+						$$('body > header ul li').each(function(el,i){
+							el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
+						});
+					}).delay(2000);
 					
 					// make images draggable
 					new Drag(el ,{
@@ -140,11 +146,14 @@ $$('body > main h1').addClass('hangingOnAString');
 // scroll constructor for window:
 var scrl = new Fx.Scroll($(document.body));
 
+var currentPage = false;
 function page(action, el){
 	scrl.start(0,0);
 	
 	// show appropriate page/content element:
 	if(action == 'show'){
+		currentPage = el.get('html').replace(' ','');
+		
 		// hide all visible article:
 		$$('body > main article').setStyles({
 			'transform': '',
@@ -183,6 +192,8 @@ function page(action, el){
 	
 	// hide all page content:
 	else if(action == 'hide'){
+		currentPage = false;
+		
 		// hide all visible articles:
 		$$('body > main article').setStyles({
 			'transform': '',
@@ -213,8 +224,8 @@ window.addEvent('scroll', function(){
 	scrollY = window.getScroll().y;
 	
 	// hide part of header on scroll down:
-	if(scrollY > 100 && window.getScroll().y > scrollYi + 10){
-		$$('body > header').addClass('hide');
+	if(currentPage && scrollY > 100 && window.getScroll().y > scrollYi + 10 && !bodyHeader.hasClass('hide')){
+		bodyHeader.addClass('hide');
 		(function(){ $$('body > header ul').setStyle('display','none'); }).delay(500);
 		scrollYi = scrollY;
 	}
@@ -224,8 +235,9 @@ window.addEvent('scroll', function(){
 		(scrollY < 100 || window.getScroll().y < scrollYi)
 		// avoid jumping header animation once reached bottom of page:
 		&& $(document.body).scrollHeight > ($(document.body).scrollTop + window.innerHeight + 50)
+		&& bodyHeader.hasClass('hide')
 	){
-		$$('body > header').removeClass('hide');
+		bodyHeader.removeClass('hide');
 		$$('body > header ul').setStyle('display','inline-block');
 		scrollYi = scrollY;
 	}
