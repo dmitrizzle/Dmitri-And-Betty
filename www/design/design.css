@@ -423,7 +423,7 @@ body > main p a {
 }
 #backdrop.show {
 	transform: scale(1.25);
-	opacity: .15;
+	opacity: .25;
 }
 
 
