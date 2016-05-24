@@ -34,7 +34,9 @@ h1 {
 	font-family: 'Great Vibes', cursive;
 	font-size: 2.5em
 }
-h2 { font-size: .85em; }
+h2 {
+	font-size: 1em;
+}
 a {
 	color: #706893;
 }
@@ -47,7 +49,6 @@ main {
 @media only screen and (min-width:2000px) {
 	body { font-size: 110%; }
 }
-strong { font-weight: 700 }
 .center { text-align: center; }
 
 
@@ -124,10 +125,20 @@ body > header a {
 @media only screen and (max-width:800px) { 
 	body > header {
 		padding: 1.5em 10em;
-		height: 9em;
+		height: 7.5em;
 		transition: transform 750ms;
+		
+		transform: scale(1);
+		animation: none;
+		background: rgba(255,255,255,.97);
+		box-shadow: 0 .25em 1em rgba(0, 0, 0, 0.33);
 	}
-	body > header.hide { transform: translateY(-6em) }
+	body > header.hide {
+		transform: translateY(-6em) scale(1);
+		animation: none;
+		background: rgba(255,255,255,.97);
+		box-shadow: 0 .25em 1em rgba(0, 0, 0, 0.33);
+	}
 }
 
 body > header h1 {
@@ -136,14 +147,18 @@ body > header h1 {
 	cursor: pointer;
 	display: inline-block;
 	border-radius: .15em;
-	padding: .15em 0;
 	color: #768371;
+	top: 0.025em;
+	position: relative;
+	line-height: 1.25em;
+	overflow: hidden;
+	height: 1.25em
 }
 @media only screen and (max-width:800px) { 
 	body > header h1 {
 		display: block;
 		text-align: center;
-		margin: 0 0 0 calc(50vw - 8.25em);
+		margin: 0 0 0 calc(50vw - 7.85em);
 		left: 0;
 		transition: transform 750ms;
 	}
@@ -166,18 +181,17 @@ body > header h1 em, body > header h1 em i {
 }
 body > header h1 em {
 	font-size: .5em;
-	font-weight: 400;
-	opacity: 0;
-	animation: fadeIn 750ms ease 2250ms forwards;
-	margin: .85em 2em 0 0;
-	display: block;
-	width: 5em;
-	overflow: hidden;
-	float: right;
-	/* background: #fff; */
-	border-radius: .25em;
-	padding: 0 .15em;
-	text-align: center;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeIn 750ms ease 2250ms forwards;
+    margin: 0.25em 2em 0 0;
+    display: block;
+    width: 5em;
+    overflow: hidden;
+    float: right;
+    border-radius: .25em;
+    padding: 0 .15em;
+    text-align: center;
 }
 @media only screen and (max-width:800px) { 
 	body > header h1 em {
@@ -198,16 +212,18 @@ body > header h1 span.betty {
 }
 
 body > header ul {
-	display: inline-block;
-	font-size: 1.5em;
-	margin: 0;
-	padding: 0;
-	width: calc(100% - 29.5em);
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    width: calc(100% - 37.5em);
+    position: absolute;
+    top: 1.1em;
 }
 @media only screen and (max-width:800px) { 
 	body > header ul {
 		margin-left: -2.5em;
-		margin-top: 1.5em;
+		margin-top: 3.5em;
 		width: calc(100vw - 1em);
 		transition: opacity 200ms, transform 500ms;
 	}
@@ -222,7 +238,7 @@ body > header ul li {
 	padding: .25em .5em;
 	min-width: 4em;
 	text-align: center;
-	border-radius: .15em;
+	/* border-radius: .15em; */
 	overflow: hidden;
 	animation: headerMenuDrop 500ms ease 3000ms forwards;
 	opacity: 0;
@@ -241,9 +257,7 @@ body > header ul li:nth-child(4) {
 body > header ul li.rsvp {
 	float: right;
 	display: inline-block;
-	background: #768371;
-	font-weight: 700;
-	text-shadow: 0 0 2px rgba(0, 0, 0, 0.48);
+	background: #595375;
 	border-bottom: none;
 	padding: 0;
 	min-width: 0;
@@ -262,7 +276,7 @@ body > header ul li.rsvp.selected a {
 	border-bottom: none;
 }
 body > header ul li.rsvp.selected {
-	background: #2c2c2c;
+	background: #768371;
 	border-bottom: none;
 }
 @media only screen and (max-width:800px) {
@@ -300,7 +314,7 @@ body > main article {
 	transform: translateY(-100vh);
 	transition: all 300ms;
 }
-body > main h1, body > main h2, body > main p {
+body > main h1, body > main h2, body > main p, body > main li, body > main figure, body > main iframe {
 	background: rgba(255, 255, 255, 0.75);
 	padding: 1em;
 	display: inline-block;
@@ -310,17 +324,60 @@ body > main h1, body > main h2, body > main p {
 	transition-timing-function: cubic-bezier(0.175, 0.000, 0.105, 1.000);
 	line-height: 1.5em
 }
-body > main p {
+body > main iframe {
+	padding: 0;
+}
+body > main h2 {
+	font-size: 1em;
+	font-weight: 400;
+	padding: 0 .5em;
+	margin-top: 2em;
+}
+body > main ul { padding: 0; }
+body > main ul li {
+	text-align: left;
+	padding: .5em 1em;
+}
+body > main ul li:before {
+	content: "•";
+	color: #fff;
+	margin-left: -2em;
+	margin-right: 2em;
+}
+body > main figure {
+	max-width: 20em;
+	opacity: .85;
+	padding: 0;
+	max-width: 20em;
+}
+body > main figure a {
+	display: block;
+	padding: 0;
+}
+body > main figure img {
+	width: 100%;
+	display: block;
+}
+body > main p, body > main ul li {
 	display: block;
 	padding-bottom: .5em;
 	text-align: left;
 }
-body > main p a {
-	color: #706893;
-	border-radius: .15em;
-	padding: 0 .25em;
+body > main a {
 	text-decoration: none;
-	border-bottom: 2px solid #706893;
+	box-shadow: 0 .1em 0 0 rgba(89, 83, 117, 0.35);
+	color: #2c2c2c;
+	padding: .05em .25em;
+	font-size: .7em;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+body > main strong {
+	font-weight: 400;
+	background: rgba(89, 83, 117, 0.5);
+	color: #fff;
+	padding: .15em .5em;
+	font-size: .75em;
 }
 
 
@@ -394,7 +451,7 @@ body > main p a {
 }
 #backdrop.show {
 	transform: scale(1.25);
-	opacity: .25;
+	opacity: .15;
 }
 
 

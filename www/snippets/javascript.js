@@ -57,7 +57,7 @@ window.addEvent('domready', function(){
 // background images animation, loading and interaction:
 
 	
-			
+/*		
 (function(){
 	var siteBackgroundImg = 'design/img/background.jpg';
 	Asset.image(siteBackgroundImg, {
@@ -68,6 +68,9 @@ window.addEvent('domready', function(){
 		}
 	});	
 }).delay(2250);
+*/
+
+
 			
 (function(){
 
@@ -164,6 +167,8 @@ $$($$('body > header > h1'),$('background')).addEvent('click', function(){
 $$('body > main p').addClass('hangingOnAString');
 $$('body > main h1').addClass('hangingOnAString');
 $$('body > main h2').addClass('hangingOnAString');
+$$('body > main ul li').addClass('hangingOnAString');
+// $$('body > main figure').addClass('hangingOnAString');
 
 // scroll constructor for window:
 var scrl = new Fx.Scroll($(document.body));
@@ -174,7 +179,7 @@ function page(action, el){
 	
 	// show appropriate page/content element:
 	if(action == 'show'){
-		currentPage = el.get('html').replace(' ','');
+		currentPage = el.get('class').capitalize();
 		
 		// hide all visible article:
 		$$('body > main article').setStyles({
@@ -184,7 +189,7 @@ function page(action, el){
 		});
 		$$('body > main article').setStyle('opacity',0);
 		// show current article:
-		$('article'+el.get('html').replace(' ','')).setStyles({
+		$('article'+ currentPage ).setStyles({
 			'opacity': 1,
 			'transform': 'translateY(0)',
 			'z-index': 2
@@ -202,13 +207,13 @@ function page(action, el){
 		
 		// 3D rotation effect for text blocks:
 		(function(){
-		$$('body > main .hangingOnAString').each(function(el){
-			tempRotate = ((Math.random() * 0.0002) - 0);
-			if((Math.random() - 1) > 0){
-				tempRotate = ((Math.random() * -.0002) - 0);
-			}
-			el.setStyle('transform', 'matrix3d(0.98,0,0.17,' + ((Math.random() * 0.0002) - 0) +',0.00,1,0.00,0,-0.17,0,0.98,0,0,0,0,1)');
-		});
+			$$('body > main .hangingOnAString').each(function(el){
+				tempRotate = ((Math.random() * 0.0002) - 0);
+				if((Math.random() - 1) > 0){
+					tempRotate = ((Math.random() * -.0002) - 0);
+				}
+				el.setStyle('transform', 'matrix3d(0.98,0,0.17,' + ((Math.random() * 0.0002) - 0) +',0.00,1,0.00,0,-0.17,0,0.98,0,0,0,0,1)');
+			});
 		}).delay(100);
 	}
 	
