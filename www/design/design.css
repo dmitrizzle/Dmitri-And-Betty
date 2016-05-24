@@ -9,7 +9,7 @@ body {
     min-width: 320px;
     padding: 0;
     margin: 0;
-	font-family: Halant, serif;
+	font-family: 'Didact Gothic', sans-serif;
 	font-size: 62.5%;
 	letter-spacing: 0.05em;
 	font-weight: 400;
@@ -26,14 +26,17 @@ header, section, footer, aside, nav, main, article, figure, figcaption, details,
 	padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: Poppins, sans-serif;
 	font-weight: 700;
 	margin: 0;
 	padding: 0;
 }
+h1 {
+	font-family: 'Great Vibes', cursive;
+	font-size: 2.5em
+}
+h2 { font-size: .85em; }
 a {
-	text-decoration: none;
-	color: #2c2c2c;
+	color: #706893;
 }
 main {
 	margin: 0 auto;
@@ -53,17 +56,22 @@ strong { font-weight: 700 }
 	box-shadow: 0 .5em 1em rgba(0, 0, 0, 0.3);
 }
 .beatingHeart {
-    animation: beat 750ms;
-    animation-iteration-count: 7;
-    display: inline-block;
-    position: relative;
+	display: inline-block;
+	position: relative;
+	font-size: .65em
+}
+.beatingHeart svg { padding: 0 .1em; overflow: visible; }
+.beatingHeart svg path {
+	animation: beat 750ms;
+	animation-iteration-count: 7;
 }
 
 
+
 @keyframes beat {
-    0% { transform: scale(1); }
-    5% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+	0% { fill: #c89fbf; transform: scale(1);}
+	5% { fill: #595375; transform: scale(1.1) translate(-.045em,0);}
+	100% { fill: #c89fbf; transform: scale(1);}
 }
 @keyframes fadeIn {
     0% { opacity: 0; }
@@ -104,9 +112,12 @@ body > header {
 	padding: 1.5em 7.5em;
 	width: calc(100vw + 10em);
 	z-index: 100;
-	animation: headerForm 500ms ease 3000ms forwards;
-	
+	animation: headerForm 500ms ease 1750ms forwards;
+	opacity: .95;
 	overflow: hidden;
+}
+body > header a {
+	text-decoration: none;
 }
 @media only screen and (max-width:800px) { 
 	body > header {
@@ -118,31 +129,33 @@ body > header {
 }
 
 body > header h1 {
-	width: 14em;
-	background: rgba(255, 255, 255, 0.9);
+	width: 11em;
+	background: 0 0;
 	cursor: pointer;
 	display: inline-block;
 	border-radius: .15em;
 	padding: .15em 0;
+	color: #768371;
 }
 @media only screen and (max-width:800px) { 
 	body > header h1 {
 		display: block;
 		text-align: center;
-		margin: 0 0 0 calc(50vw - 9.5em);
+		margin: 0 0 0 calc(50vw - 8.25em);
+		left: 0;
 		transition: transform 750ms;
 	}
-	body > header.hide h1 { transform: translateY(2.85em) }
+	body > header.hide h1 { transform: translateY(2.25em) }
 }
 body > header h1 em {
-	color: #ff5a96;
+	color: #c89fbf;
 }
 body > header h1 strong svg {
 	width: .75em;
 	height: .75em;
 }
-body > header h1 strong svg path { fill: #ff5a96; }
-body > header h1:hover strong {
+body > header h1 strong svg path { fill: #c89fbf; }
+body > header h1:hover svg path {
  	animation: beat 750ms;
     animation-iteration-count: 3;
 }
@@ -150,23 +163,27 @@ body > header h1 em, body > header h1 em i {
 	font-style: normal;
 }
 body > header h1 em {
-	font-size: .75em;
+	font-size: .5em;
 	font-weight: 400;
 	opacity: 0;
 	animation: fadeIn 750ms ease 2250ms forwards;
-	margin: .4em 3.25em 0 0;
+	margin: .85em 2em 0 0;
 	display: block;
-	width: 4em;
+	width: 5em;
 	overflow: hidden;
 	float: right;
+	/* background: #fff; */
+	border-radius: .25em;
+	padding: 0 .15em;
+	text-align: center;
 }
 @media only screen and (max-width:800px) { 
 	body > header h1 em {
 		animation: fadeInHalf 750ms ease 2250ms forwards;
 		position: absolute;
 		display: block;
-		right: 17.5em;
-		top: 3.35em;
+		right: 19.5em;
+		top: 4em;
 	}
 }
 body > header h1 span.dmitri {
@@ -181,10 +198,9 @@ body > header h1 span.betty {
 body > header ul {
 	display: inline-block;
 	font-size: 1.5em;
-	font-family: Poppins, sans-serif;
 	margin: 0;
 	padding: 0;
-	width: calc(100% - 28em);
+	width: calc(100% - 29.5em);
 }
 @media only screen and (max-width:800px) { 
 	body > header ul {
@@ -205,6 +221,7 @@ body > header ul li {
 	min-width: 4em;
 	text-align: center;
 	border-radius: .15em;
+	overflow: hidden;
 	animation: headerMenuDrop 500ms ease 3000ms forwards;
 	opacity: 0;
 	border-bottom: 3px solid #fff;
@@ -222,16 +239,22 @@ body > header ul li:nth-child(4) {
 body > header ul li.rsvp {
 	float: right;
 	display: inline-block;
-	background: #ff5a96;
+	background: #768371;
 	font-weight: 700;
 	text-shadow: 0 0 2px rgba(0, 0, 0, 0.48);
 	border-bottom: none;
+	padding: 0;
+	min-width: 0;
+	cursor: pointer;
 }
 body > header ul li.rsvp a {
 	color: #fff;
+	padding: .25em .5em;
+	display: block;
+	min-width: 4em;
 }
 body > header ul li.selected {
-	border-bottom: 3px solid #2c2c2c;
+	border-bottom: 3px solid #706893;
 }
 body > header ul li.rsvp.selected a {
 	border-bottom: none;
@@ -275,20 +298,27 @@ body > main article {
 	transform: translateY(-100vh);
 	transition: all 300ms;
 }
-body > main h1, body > main p {
+body > main h1, body > main h2, body > main p {
 	background: rgba(255, 255, 255, 0.75);
-	padding: 0 .33em;
+	padding: 1em;
 	display: inline-block;
 	margin: 0 0 1em;
 	transition: transform 1.5s;
 	-webkit-transition-timing-function: cubic-bezier(0.175, 0.000, 0.105, 1.000); 
 	transition-timing-function: cubic-bezier(0.175, 0.000, 0.105, 1.000);
-
+	line-height: 1.5em
 }
 body > main p {
 	display: block;
 	padding-bottom: .5em;
 	text-align: left;
+}
+body > main p a {
+	color: #706893;
+	border-radius: .15em;
+	padding: 0 .25em;
+	text-decoration: none;
+	border-bottom: 2px solid #706893;
 }
 
 
@@ -313,7 +343,6 @@ body > main p {
 	filter: blur(20px);
 	
 	transform: scale(1.1);
-	opacity: .35;
 }
 #background > div {
 	width: 45vw;
@@ -379,6 +408,22 @@ body > main p {
 
 
 
+#backdrop {
+	background-size: cover;
+	background-position: bottom;
+	opacity: 1;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	transition: opacity 5s, transform 50s, filter 5s;
+	opacity: 0;
+	z-index: -1;
+	position: absolute;
+}
+#backdrop.show {
+	transform: scale(1.25);
+	opacity: .15;
+}
 
 
 

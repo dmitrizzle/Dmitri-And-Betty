@@ -52,8 +52,25 @@ window.addEvent('domready', function(){
 	(function(){ $$('body > header h1 strong svg').setStyle('display','inline-block'); }).delay(100);
 });
 
+
+
 // background images animation, loading and interaction:
+
+	
+			
 (function(){
+	var siteBackgroundImg = 'design/img/background.jpg';
+	Asset.image(siteBackgroundImg, {
+		onLoad: function(){
+			$('backdrop').setStyles({
+				'background-image': 'url(' + siteBackgroundImg + ')'
+			}).addClass('show');
+		}
+	});	
+}).delay(2250);
+			
+(function(){
+
 
 	// number count down animation:
 	$$('body > header em > i').each(function(el,i){
@@ -62,7 +79,7 @@ window.addEvent('domready', function(){
 	
 	Asset.images(polaroids, {
 		onComplete: function(){
-		
+
 			// throw the photos:
 			$$('#background > div').setStyle('display','block').each(function(el,i){
 				(function(){
@@ -73,13 +90,13 @@ window.addEvent('domready', function(){
 						'top': photoThrow.top[i],
 						'opacity': 1
 					});
-					
+			
 					(function(){
 						$$('body > header ul li').each(function(el,i){
 							el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
 						});
 					}).delay(2000);
-					
+			
 					// make images draggable
 					new Drag(el ,{
 						onStart: function(el){
@@ -106,10 +123,12 @@ window.addEvent('domready', function(){
 							// reset all photos:
 							$$('#background > div').each(function(el,i){
 								el.setStyles({
-									'z-index': el.getStyle('z-index') - 1,
 									'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75)',
 									'transition': ''
 								});
+								if(el.getStyle('z-index') > 0){
+									el.setStyles({ 'z-index': el.getStyle('z-index') - 1 });
+								}
 							});
 						}
 					});
@@ -117,6 +136,8 @@ window.addEvent('domready', function(){
 			});
 		}
 	});
+		
+		
 }).delay(2250);
 
 
@@ -142,6 +163,7 @@ $$($$('body > header > h1'),$('background')).addEvent('click', function(){
 // add animation class for all text and headers:
 $$('body > main p').addClass('hangingOnAString');
 $$('body > main h1').addClass('hangingOnAString');
+$$('body > main h2').addClass('hangingOnAString');
 
 // scroll constructor for window:
 var scrl = new Fx.Scroll($(document.body));
@@ -226,7 +248,9 @@ window.addEvent('scroll', function(){
 	// hide part of header on scroll down:
 	if(currentPage && scrollY > 100 && window.getScroll().y > scrollYi + 10 && !bodyHeader.hasClass('hide')){
 		bodyHeader.addClass('hide');
-		(function(){ $$('body > header ul').setStyle('display','none'); }).delay(500);
+		if(window.getSize().x < 800){
+			(function(){ $$('body > header ul').setStyle('display','none'); }).delay(500);
+		}
 		scrollYi = scrollY;
 	}
 	
