@@ -410,7 +410,6 @@ body > main p a {
 
 #backdrop {
 	background-size: cover;
-	background-position: bottom;
 	opacity: 1;
 	width: 100vw;
 	height: 100vh;
