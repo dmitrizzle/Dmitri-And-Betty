@@ -33,7 +33,7 @@ for (var i = 0; i < totalPolaroids; ++i){
 	photoThrow.rotate[i] = Math.floor((Math.random() * 50) - 25);	
 	photoThrow.left[i] = Math.random() * (window.getSize().x/totalPolaroids)*(i+1);
 	
-	photoThrow.top[i] = Math.random() * (window.getSize().y/totalPolaroids)*(i+i) + bodyHeader.getSize().y/2;
+	photoThrow.top[i] = Math.random() * (window.getSize().y/totalPolaroids)*(i+1) + bodyHeader.getSize().y/2;
 }
 
 // number increment animation:

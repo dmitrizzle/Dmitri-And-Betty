@@ -350,25 +350,13 @@ body > main p a {
 	width: 45vw;
 	position: absolute;
 	transform: translate(0, 100%) scale(1.1);
-	background: #fff;
-	padding: 1.5vw 1.5vw 1.5vw 7.5vw;
 	margin: 1em;
-	border-radius: .33em;
+	border-radius: .5em;
 	z-index: 1;
 	opacity: 0;
 	transition: transform 750ms, opacity 250ms;
 	-webkit-transition-timing-function: cubic-bezier(0.175, 0.000, 0.105, 1.000); 
 	transition-timing-function: cubic-bezier(0.175, 0.000, 0.105, 1.000);
-}
-#background div.innerShadow {
-	box-shadow: 0 0 .25em #000 inset;
-	position: absolute;
-	top: 1.5vw;
-	left: 7.5vw;
-	right: 1.5vw;
-	bottom: 1.5vw;
-	z-index: 1;
-	border-radius: .15em;
 	overflow: hidden;
 }
 #background > div > img {
@@ -379,32 +367,15 @@ body > main p a {
 }
 
 #background > div.vertical {
-	width: calc(45vw * 4/5);
-	padding: 1.5vw 1.5vw 7.5vw 1.5vw;
-}
-#background div.vertical div.innerShadow {
-	left: 1.5vw;
-	bottom: 7.5vw;
+	width: calc(45vw * 6/9.55);
 }
 
 @media screen and (max-aspect-ratio: 1/1) {
 	#background > div {
-		padding: 1.5vh 1.5vh 1.5vh 7.5vh;
 		width: 45vh;
 	}
-	#background div.innerShadow {
-		top: 1.5vh;
-		left: 7.5vh;
-		right: 1.5vh;
-		bottom: 1.5vh;
-	}
 	#background > div.vertical {
-		width: calc(45vh * 4/5);
-		padding: 1.5vh 1.5vh 7.5vh 1.5vh;
-	}
-	#background div.vertical div.innerShadow {
-		left: 1.5vh;
-		bottom: 7.5vh;
+		width: calc(45vh * 6/9.55);
 	}
 }
 
