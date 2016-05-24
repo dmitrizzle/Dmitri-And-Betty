@@ -326,6 +326,7 @@ body > main h1, body > main h2, body > main p, body > main li, body > main figur
 }
 body > main iframe {
 	padding: 0;
+	min-height: 50em;
 }
 body > main h2 {
 	font-size: 1em;
