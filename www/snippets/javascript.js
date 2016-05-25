@@ -7,7 +7,7 @@ var bodyHeader = $$('body > header')[0];
 // total number of polaroid pictures:
 var polaroids = [];
 $$('#background > div img').each(function(el,i){
-	polaroids[i] = el.get('src');
+	polaroids[i] = el;
 });
 
 var totalPolaroids = polaroids.length;
@@ -82,8 +82,9 @@ window.addEvent('domready', function(){
 	
 	$$('#background > div').each(function(el,i){
 		//console.log(polaroids[i]);
-		Asset.image(polaroids[i], {
+		Asset.image(polaroids[i].get('src'), {
 			onLoad: function(){
+				console.log(polaroids[i].get('src'));
 				(function(){
 					el.setStyles({
 						'transform':'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75) translateZ(0)',
@@ -161,7 +162,7 @@ function polaroidsSize(){
 	//small
 	if(window.getSize().x < 850){
 		$$('#background > div img').each(function(el,i){
-			el.set('src', el.get('src').replace('/img/s','/img/').replace('/img/','/img/s'));
+			el.set('src', el.get('data-src').replace('/img/','/img/s'));
 			
 		});
 	}
@@ -169,7 +170,7 @@ function polaroidsSize(){
 	//large
 	else{
 		$$('#background > div img').each(function(el,i){
-			el.set('src', el.get('src').replace('/img/s','/img/'));
+			el.set('src', el.get('data-src'));
 		});
 	}
 	
