@@ -80,11 +80,10 @@ window.addEvent('domready', function(){
 		(function(){ incrementAnimate(el); }).delay(i*200);
 	});
 	
-	Asset.images(polaroids, {
-		onComplete: function(){
-
-			// throw the photos:
-			$$('#background > div').setStyle('display','block').each(function(el,i){
+	$$('#background > div').each(function(el,i){
+		//console.log(polaroids[i]);
+		Asset.image(polaroids[i], {
+			onLoad: function(){
 				(function(){
 					el.setStyles({
 						'transform':'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75) translateZ(0)',
@@ -93,13 +92,13 @@ window.addEvent('domready', function(){
 						'top': photoThrow.top[i],
 						'opacity': 1
 					});
-			
+	
 					(function(){
 						$$('body > header ul li').each(function(el,i){
 							el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
 						});
 					}).delay(2000);
-			
+	
 					// make images draggable
 					new Drag(el ,{
 						onStart: function(el){
@@ -136,13 +135,47 @@ window.addEvent('domready', function(){
 						}
 					});
 				}).delay(photoThrow.z[i]*150); // sequence drop animation
-			});
-		}
+			}
+		});
+		
 	});
 		
 		
 }).delay(2250);
 
+
+// show right size images
+var resizeTimer = null;
+window.addEvent('resize', function(){
+	//create end scroll event
+	if(resizeTimer !== null) {
+		clearTimeout(resizeTimer);  
+	}
+	resizeTimer = setTimeout(function() {
+		  window.fireEvent('resizeend');
+	}, 500);
+});
+
+function polaroidsSize(){
+
+	//small
+	if(window.getSize().x < 850){
+		$$('#background > div img').each(function(el,i){
+			el.set('src', el.get('src').replace('/img/s','/img/').replace('/img/','/img/s'));
+			
+		});
+	}
+	
+	//large
+	else{
+		$$('#background > div img').each(function(el,i){
+			el.set('src', el.get('src').replace('/img/s','/img/'));
+		});
+	}
+	
+}
+polaroidsSize();
+window.addEvent('resizeend', polaroidsSize);
 
 
 
