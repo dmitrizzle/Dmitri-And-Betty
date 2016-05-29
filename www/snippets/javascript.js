@@ -4,6 +4,31 @@ var bodyHeader = $$('body > header')[0];
 // BACKGROUND ANIMATION AND INTERACTIVITY
 
 
+// load fonts, first three images and send signal to start animations:
+WebFont.load({
+	google: {
+		families: [ 'Great+Vibes::latin', 'Didact+Gothic::latin' ]
+	},
+	active: function() {
+		window.addEvent('domready', function(){
+			// load first 3 images
+			var firstThreePolaroidsEls = polaroids.slice(0,3);
+			var firstThreePolaroids = [];
+			firstThreePolaroidsEls.each(function(el,i){
+				firstThreePolaroids[i] = firstThreePolaroidsEls[i].get('src');
+			});
+			Asset.images(firstThreePolaroids, {
+				onComplete: function(){
+					window.fireEvent('stylesready');
+					// console.log('stylesready');
+				}
+			});
+		});
+	},
+});
+    
+    
+
 // total number of polaroid pictures:
 var polaroids = [];
 $$('#background > div img').each(function(el,i){
@@ -48,101 +73,90 @@ function incrementAnimate(el){
 	}, 20);
 }
 
-window.addEvent('domready', function(){
-	(function(){ $$('body > header h1 strong svg').setStyle('display','inline-block'); }).delay(100);
+
+
+// animate intro
+window.addEvent('stylesready', function(){
+	
+	// header animation:
+	$$('body > header h1').setStyle('opacity', 1);
+	(function(){ bodyHeader.setStyle('animation','headerForm 1s ease forwards'); }).delay(2250);
+	(function(){ 
+		$$('body > header ul li').each(function(el,i){
+			el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
+		});
+	}).delay(3500);
+	
+	(function(){
+		// number count down animation:
+		$$('body > header em > i').each(function(el,i){
+			(function(){ incrementAnimate(el); }).delay(i*200);
+		});
+	
+		$$('#background > div').each(function(el,i){
+			//console.log(polaroids[i]);
+			Asset.image(polaroids[i].get('src'), {
+				onLoad: function(){
+					console.log(polaroids[i].get('src'));
+					(function(){
+						el.setStyles({
+							'transform':'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75) translateZ(0)',
+							'z-index': photoThrow.z[i],
+							'left': photoThrow.left[i],
+							'top': photoThrow.top[i],
+							'opacity': 1
+						});
+	
+						(function(){
+							$$('body > header ul li').each(function(el,i){
+								el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
+							});
+						}).delay(2000);
+	
+						// make images draggable
+						new Drag(el ,{
+							onStart: function(el){
+								// move all other photos onto background
+								$$('#background > div').each(function(el,i){
+									el.setStyles({
+										'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.7)',
+										'transition': ''
+									});
+								});
+								// move draggable photo to foreground
+								el.setStyles({
+									'z-index': totalPolaroids + 1,
+									'transform': 'rotate(0) scale(.85)'
+								});
+								// generate new rotation angle for when the photo gonna get dropped:
+								photoThrow.rotate[i] = Math.floor((Math.random() * 50) - 25);
+							},
+							onDrag: function(el){
+								// remove transitions on drag to improve performance:
+								(function(){ el.setStyle('transition', '0ms'); }).delay(500);
+							},
+							onComplete: function(el){
+								// reset all photos:
+								$$('#background > div').each(function(el,i){
+									el.setStyles({
+										'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75)',
+										'transition': ''
+									});
+									if(el.getStyle('z-index') > 0){
+										el.setStyles({ 'z-index': el.getStyle('z-index') - 1 });
+									}
+								});
+							}
+						});
+					}).delay(photoThrow.z[i]*150); // sequence drop animation
+				}
+			});
+		});
+	}).delay(2250);
 });
 
-
-
-// background images animation, loading and interaction:
-
-	
-/*		
-(function(){
-	var siteBackgroundImg = 'design/img/background.jpg';
-	Asset.image(siteBackgroundImg, {
-		onLoad: function(){
-			$('backdrop').setStyles({
-				'background-image': 'url(' + siteBackgroundImg + ')'
-			}).addClass('show');
-		}
-	});	
-}).delay(2250);
-*/
-
-
 			
-(function(){
 
-
-	// number count down animation:
-	$$('body > header em > i').each(function(el,i){
-		(function(){ incrementAnimate(el); }).delay(i*200);
-	});
-	
-	$$('#background > div').each(function(el,i){
-		//console.log(polaroids[i]);
-		Asset.image(polaroids[i].get('src'), {
-			onLoad: function(){
-				console.log(polaroids[i].get('src'));
-				(function(){
-					el.setStyles({
-						'transform':'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75) translateZ(0)',
-						'z-index': photoThrow.z[i],
-						'left': photoThrow.left[i],
-						'top': photoThrow.top[i],
-						'opacity': 1
-					});
-	
-					(function(){
-						$$('body > header ul li').each(function(el,i){
-							el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
-						});
-					}).delay(2000);
-	
-					// make images draggable
-					new Drag(el ,{
-						onStart: function(el){
-							// move all other photos onto background
-							$$('#background > div').each(function(el,i){
-								el.setStyles({
-									'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.7)',
-									'transition': ''
-								});
-							});
-							// move draggable photo to foreground
-							el.setStyles({
-								'z-index': totalPolaroids + 1,
-								'transform': 'rotate(0) scale(.85)'
-							});
-							// generate new rotation angle for when the photo gonna get dropped:
-							photoThrow.rotate[i] = Math.floor((Math.random() * 50) - 25);
-						},
-						onDrag: function(el){
-							// remove transitions on drag to improve performance:
-							(function(){ el.setStyle('transition', '0ms'); }).delay(500);
-						},
-						onComplete: function(el){
-							// reset all photos:
-							$$('#background > div').each(function(el,i){
-								el.setStyles({
-									'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75)',
-									'transition': ''
-								});
-								if(el.getStyle('z-index') > 0){
-									el.setStyles({ 'z-index': el.getStyle('z-index') - 1 });
-								}
-							});
-						}
-					});
-				}).delay(photoThrow.z[i]*150); // sequence drop animation
-			}
-		});
-		
-	});
-		
-		
-}).delay(2250);
 
 
 // show right size images
@@ -175,8 +189,10 @@ function polaroidsSize(){
 	}
 	
 }
-polaroidsSize();
-window.addEvent('resizeend', polaroidsSize);
+window.addEvents({
+	'resizeend': polaroidsSize,
+	'domready': polaroidsSize
+});
 
 
 
