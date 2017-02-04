@@ -5,20 +5,36 @@ var bodyHeader = $$('body > header')[0];
 
 
 // load fonts, first three images and send signal to start animations:
+var percentLoaded = 0;
+function loadingIndicator(value){
+	percentLoaded = value;
+	if(value < 100){
+		$('pageLoadingIndicator').setStyle('width', value + '%');
+	}else if(value == 100){
+		$('pageLoadingIndicator').setStyles({
+			'width': '100%',
+			'opacity': 0
+		});
+	}
+}
+(function(){ loadingIndicator(20); }).delay(100);
 WebFont.load({
 	google: {
 		families: [ 'Great+Vibes::latin', 'Didact+Gothic::latin' ]
 	},
 	active: function() {
+		loadingIndicator(40);
 		window.addEvent('domready', function(){
+			loadingIndicator(45);
 			// load first 3 images
-			var firstThreePolaroidsEls = polaroids.slice(0,3);
+			var firstThreePolaroidsEls = polaroids.slice(0,1);
 			var firstThreePolaroids = [];
 			firstThreePolaroidsEls.each(function(el,i){
 				firstThreePolaroids[i] = firstThreePolaroidsEls[i].get('src');
 			});
 			Asset.images(firstThreePolaroids, {
 				onComplete: function(){
+					loadingIndicator(90);
 					window.fireEvent('stylesready');
 					// console.log('stylesready');
 				}
@@ -28,6 +44,10 @@ WebFont.load({
 });
     
     
+// shuffle polaroid images:
+var shuffled = $$('#background > div').shuffle();
+$$('#background > div').destroy();
+shuffled.inject($('background'));
 
 // total number of polaroid pictures:
 var polaroids = [];
@@ -39,19 +59,13 @@ var totalPolaroids = polaroids.length;
 
 // this object will hold random numbers for photo elements:
 var photoThrow = {
-	z: [],
 	rotate: [],
 	top: [],
 	left: []
 };
 
-// fill index array:
-for (var i = 0; i < totalPolaroids; ++i){
-	photoThrow.z.push(i + 1);
-}
-
-// shuffle index array:
-photoThrow.z.shuffle();
+// current loaded photo index:
+var photosLoaded = 0;
 
 // fill the rest of the arrays:
 for (var i = 0; i < totalPolaroids; ++i){
@@ -78,9 +92,21 @@ function incrementAnimate(el){
 // animate intro
 window.addEvent('stylesready', function(){
 	
-	// header animation:
-	$$('body > header h1').setStyle('opacity', 1);
-	(function(){ bodyHeader.setStyle('animation','headerForm 1s ease forwards'); }).delay(2250);
+	// start loading images:
+	polaroidsSize();
+	window.addEvent('resizeend', polaroidsSize);
+	
+	// header animations:
+	$$('.beatingHeart').addClass('show');
+	$$('body > header h1 span.dmitri').addClass('show');
+	$$('body > header h1 span.betty').addClass('show');
+	$$('body > header h1').addClass('show');
+	(function(){
+		bodyHeader.addClass('loaded');
+		$$('body > header h1 em').addClass('show');
+	}).delay(2250);
+	
+	
 	(function(){ 
 		$$('body > header ul li').each(function(el,i){
 			el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
@@ -94,61 +120,62 @@ window.addEvent('stylesready', function(){
 		});
 	
 		$$('#background > div').each(function(el,i){
-			//console.log(polaroids[i]);
 			Asset.image(polaroids[i].get('src'), {
 				onLoad: function(){
-					console.log(polaroids[i].get('src'));
+				
 					(function(){
+						loadingIndicator(percentLoaded + 1);
+						console.log(polaroids[photosLoaded].get('src'));
+					
+						// throw the loaded image on the screen:
 						el.setStyles({
-							'transform':'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75) translateZ(0)',
-							'z-index': photoThrow.z[i],
-							'left': photoThrow.left[i],
-							'top': photoThrow.top[i],
+							'transform':'rotate(' + photoThrow.rotate[photosLoaded] + 'deg) scale(.75) translateZ(0)',
+							'z-index': photosLoaded,
+							'left': photoThrow.left[photosLoaded],
+							'top': photoThrow.top[photosLoaded],
 							'opacity': 1
 						});
-	
-						(function(){
-							$$('body > header ul li').each(function(el,i){
-								el.setStyle('animation','headerMenuDrop 500ms ease '+i*150+'ms forwards');
-							});
-						}).delay(2000);
-	
-						// make images draggable
-						new Drag(el ,{
-							onStart: function(el){
-								// move all other photos onto background
-								$$('#background > div').each(function(el,i){
-									el.setStyles({
-										'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.7)',
-										'transition': ''
-									});
-								});
-								// move draggable photo to foreground
+					
+						photosLoaded ++;
+					}).delay(i*150);
+					
+					
+					// make images draggable:
+					new Drag(el ,{
+						onStart: function(el){
+							// move all other photos onto background
+							$$('#background > div').each(function(el,i){
 								el.setStyles({
-									'z-index': totalPolaroids + 1,
-									'transform': 'rotate(0) scale(.85)'
+									'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.7)',
+									'transition': ''
 								});
-								// generate new rotation angle for when the photo gonna get dropped:
-								photoThrow.rotate[i] = Math.floor((Math.random() * 50) - 25);
-							},
-							onDrag: function(el){
-								// remove transitions on drag to improve performance:
-								(function(){ el.setStyle('transition', '0ms'); }).delay(500);
-							},
-							onComplete: function(el){
-								// reset all photos:
-								$$('#background > div').each(function(el,i){
-									el.setStyles({
-										'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75)',
-										'transition': ''
-									});
-									if(el.getStyle('z-index') > 0){
-										el.setStyles({ 'z-index': el.getStyle('z-index') - 1 });
-									}
+							});
+							// move draggable photo to foreground
+							el.setStyles({
+								'z-index': totalPolaroids + 1,
+								'transform': 'rotate(0) scale(.85)'
+							});
+							// generate new rotation angle for when the photo gonna get dropped:
+							photoThrow.rotate[photosLoaded] = Math.floor((Math.random() * 50) - 25);
+						},
+						onDrag: function(el){
+							// remove transitions on drag to improve performance:
+							(function(){ el.setStyle('transition', '0ms'); }).delay(500);
+						},
+						onComplete: function(el){
+							// reset all photos:
+							$$('#background > div').each(function(el,i){
+								el.setStyles({
+									'transform': 'rotate(' + photoThrow.rotate[i] + 'deg) scale(.75)',
+									'transition': ''
 								});
-							}
-						});
-					}).delay(photoThrow.z[i]*150); // sequence drop animation
+								if(el.getStyle('z-index') > 0){
+									el.setStyles({ 'z-index': el.getStyle('z-index') - 1 });
+								}
+							});
+						}
+					});
+					
 				}
 			});
 		});
@@ -189,10 +216,6 @@ function polaroidsSize(){
 	}
 	
 }
-window.addEvents({
-	'resizeend': polaroidsSize,
-	'domready': polaroidsSize
-});
 
 
 
@@ -213,37 +236,51 @@ $$($$('body > header > h1'),$('background')).addEvent('click', function(){
 	page('hide');
 });
 
-// add animation class for all text and headers:
-$$('body > main p').addClass('hangingOnAString');
-$$('body > main h1').addClass('hangingOnAString');
-$$('body > main h2').addClass('hangingOnAString');
-$$('body > main ul li').addClass('hangingOnAString');
-// $$('body > main figure').addClass('hangingOnAString');
+
+
+// animation when content loads:
+function stringWordAnimation(){
+	$$('body > main .hangingOnAString').each(function(el){
+		tempRotate = ((Math.random() * 0.0002) - 0);
+		if((Math.random() - 1) > 0){
+			tempRotate = ((Math.random() * -.0002) - 0);
+		}
+		el.setStyle('transform', 'matrix3d(0.98,0,0.17,' + ((Math.random() * 0.0002) - 0) +',0.00,1,0.00,0,-0.17,0,0.98,0,0,0,0,1)');
+	});
+}
 
 // scroll constructor for window:
 var scrl = new Fx.Scroll($(document.body));
-
 var currentPage = false;
 function page(action, el){
 	scrl.start(0,0);
 	
 	// show appropriate page/content element:
 	if(action == 'show'){
-		currentPage = el.get('class').capitalize();
 		
-		// hide all visible article:
+		// hide all visible articles:
 		$$('body > main article').setStyles({
 			'transform': '',
-			'opacity': '',
-			'z-index': ''
+			'z-index': '',
+			'opacity': 0,
 		});
-		$$('body > main article').setStyle('opacity',0);
-		// show current article:
-		$('article'+ currentPage ).setStyles({
-			'opacity': 1,
-			'transform': 'translateY(0)',
-			'z-index': 2
-		});
+		
+		// current page element
+		currentPage = el.get('class');
+		articleEl = $('article'+ currentPage.capitalize());
+		console.log(articleEl);
+		
+		// hide all inactive pages:
+		/*(function(){
+			$$('body > main article').each(function(el,i){
+				if(el.get('id') !== 'article'+ currentPage.capitalize()){
+					el.setStyle('display','none');
+				}else{
+					el.setStyle('display','');
+				}
+			});
+		}).delay(500);*/
+		
 		
 		// prepare content canvas:
 		$('background').addClass('blur');
@@ -255,16 +292,74 @@ function page(action, el){
 		$$('body > header li').removeClass('selected');
 		el.getParents('li')[0].addClass('selected');
 		
-		// 3D rotation effect for text blocks:
-		(function(){
-			$$('body > main .hangingOnAString').each(function(el){
-				tempRotate = ((Math.random() * 0.0002) - 0);
-				if((Math.random() - 1) > 0){
-					tempRotate = ((Math.random() * -.0002) - 0);
+		// load content:
+		if(articleEl.get('html') == ''){
+		
+			// load content:
+			new Request.HTML({
+				url: currentPage.hyphenate() + '.html',
+				noCache: true,
+				onSuccess: function(tree, elements, html, js){
+					// show current article:
+					articleEl.setStyles({
+						'opacity': 1,
+						'transform': 'translateY(0)',
+						'z-index': 2
+					});
+					articleEl.set('html', html);
+					console.log(currentPage.hyphenate() + '.html');
+				
+					// 3D rotation effect for text blocks:
+					$$('body > main p').addClass('hangingOnAString');
+					$$('body > main h1').addClass('hangingOnAString');
+					$$('body > main h2').addClass('hangingOnAString');
+					$$('body > main ul li').addClass('hangingOnAString');
+					stringWordAnimation.delay(100);
+				
+					if(currentPage == 'RSVP'){
+					$$('strong.beatingHeart')[0].clone().inject($('loadingRSVP'));
+						$('JotFormIFrame').addEvent('load', function(){
+							console.log('form loaded');
+							$('loadingRSVP').addClass('hide');
+						});
+					}
+					
+					// anchor links to smooth scroll:
+					// external links:
+					$$('body > main a').each(function(el,i){
+						anchor = el.get('href');
+						if(anchor.contains('#')){
+							console.log(anchor);
+							
+							el.addClass('internal').set('title','Scroll to ' + anchor + ' on this page.');
+							el.addEvent('click', function(e){
+								e.stop();
+								target = $$(el.get('href'))[0];
+								scrl.start(0, target.getPosition().y - 100);
+								
+								target.setStyles({'transition': 'all 500ms'});
+								target.addClass('highlight');
+								(function(){ target.removeClass('highlight'); }).delay(1000);
+							});
+						}
+						else if(el.get('rel').contains('nofollow')){
+							el.addClass('external').set('title','This link will open an external website in another window.');
+						}
+					});
+					
 				}
-				el.setStyle('transform', 'matrix3d(0.98,0,0.17,' + ((Math.random() * 0.0002) - 0) +',0.00,1,0.00,0,-0.17,0,0.98,0,0,0,0,1)');
+			}).get();
+		}
+		else {
+			articleEl.setStyles({
+				'opacity': 1,
+				'transform': 'translateY(0)',
+				'z-index': 2,
+				'display': 'block'
 			});
-		}).delay(100);
+			// animate if tab button clicked again:
+			stringWordAnimation.delay(250);
+		}
 	}
 	
 	// hide all page content:
@@ -286,6 +381,10 @@ function page(action, el){
 			$$('body').setStyle('height', '');
 		}).delay(500);
 		
+		// restore header:
+		bodyHeader.removeClass('hide');
+		$$('body > header ul').setStyle('display','inline-block');
+		
 		// remove menu selections:
 		$$('body > header li').removeClass('selected');
 		$$($$('body > main p'),$$('body > main p')).each(function(el,i){
@@ -301,7 +400,7 @@ window.addEvent('scroll', function(){
 	scrollY = window.getScroll().y;
 	
 	// hide part of header on scroll down:
-	if(currentPage && scrollY > 100 && window.getScroll().y > scrollYi + 10 && !bodyHeader.hasClass('hide')){
+	if(currentPage && scrollY > 20 && window.getScroll().y > scrollYi + 10 && !bodyHeader.hasClass('hide')){
 		bodyHeader.addClass('hide');
 		if(window.getSize().x < 800){
 			(function(){ $$('body > header ul').setStyle('display','none'); }).delay(500);
@@ -321,6 +420,10 @@ window.addEvent('scroll', function(){
 		scrollYi = scrollY;
 	}
 });
+
+
+
+
 
 
 
